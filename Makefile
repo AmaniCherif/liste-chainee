@@ -1,17 +1,18 @@
+CC     = gcc
+CFLAGS = -Wall -Wextra -std=c11 -g
+OBJ    = main.o liste.o
+
 ifeq ($(OS),Windows_NT)
 EXE = .exe
 endif
 
-demo$(EXE): main.o liste.o
-	gcc -Wall -Wextra -std=c11 -g -o demo main.o liste.o
+demo$(EXE): $(OBJ)
+	$(CC) $(CFLAGS) -o demo $^
 
-main.o: main.c liste.h
-	gcc -Wall -Wextra -std=c11 -g -c main.c
-
-liste.o: liste.c liste.h
-	gcc -Wall -Wextra -std=c11 -g -c liste.c
+%.o: %.c liste.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f main.o liste.o demo demo.exe
+	rm -f $(OBJ) demo demo.exe
 
 .PHONY: clean
