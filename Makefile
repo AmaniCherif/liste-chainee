@@ -1,6 +1,6 @@
 CC     = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
-OBJ    = main.o liste.o
+OBJ    = main.o liste.o test.o
 
 ifeq ($(OS),Windows_NT)
 EXE = .exe
@@ -9,7 +9,7 @@ endif
 demo$(EXE): $(OBJ)
 	$(CC) $(CFLAGS) -o demo $^
 
-%.o: %.c liste.h
+%.o: %.c liste.h test.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

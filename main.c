@@ -1,32 +1,25 @@
 #include <stdio.h>
 #include "liste.h"
+#include "test.h"
 
 int main(void)
 {
     Maillon *liste = NULL;
     for (int i = 1; i <= 5; i++) liste = liste_inserer(liste, i * 10);
-    printf("blocs apres construction : %d\n", liste_blocs_en_circulation());
+    test_verifier(liste_blocs_en_circulation() == 5, "5 blocs apres construction");
 
     printf("liste     : ");
     liste_afficher(liste);
-    printf("longueur  : %d\n", liste_longueur(liste));
-    printf("contient 30 : %s\n", liste_contient(liste, 30) ? "oui" : "non");
+    test_verifier(liste_longueur(liste) == 5, "longueur 5");
+    test_verifier(liste_contient(liste, 30), "contient 30");
+    test_verifier(!liste_contient(liste, 99), "ne contient pas 99");
 
     int max = -1;
-    if (liste_maximum(liste, &max)) printf("maximum   : %d\n", max);
-    else printf("maximum   : liste vide\n");
-    if (liste_maximum(NULL, &max)) printf("maximum(NULL) : %d\n", max);
-    else printf("maximum(NULL) : liste vide (resultat intact : %d)\n", max);
+    test_verifier(liste_maximum(liste, &max) && max == 50, "maximum 50");
+    test_verifier(!liste_maximum(NULL, &max) && max == 50, "maximum(NULL) intact");
 
     liste_liberer(liste);
-    printf("blocs apres liberation   : %d\n", liste_blocs_en_circulation());
-    printf("liberee\n");
+    test_verifier(liste_blocs_en_circulation() == 0, "0 bloc apres liberation");
 
-    /* seconde liste */
-    Maillon *fuite = NULL;
-    for (int i = 1; i <= 3; i++) fuite = liste_inserer(fuite, i);
-    printf("blocs avec fuite         : %d\n", liste_blocs_en_circulation());
-    liste_liberer(fuite);
-    printf("blocs apres correction   : %d\n", liste_blocs_en_circulation());
-    return 0;
+    return test_bilan() == 0 ? 0 : 1;
 }
