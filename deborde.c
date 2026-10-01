@@ -8,7 +8,7 @@ int main(void)
     if (t == NULL)
         return 1;
 
-    t[5] = 42;     /* une case trop loin */
+    t[5] = 42;    
 
     printf("%d\n", t[5]);
 

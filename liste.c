@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "liste.h"
 
-/* --- compteur d'allocations, interne au module --- */
 
 static int blocs = 0;
 
@@ -72,9 +71,9 @@ void liste_liberer(Maillon *tete)
 
 bool liste_maximum(const Maillon *tete, int *resultat)
 {
-    if (tete == NULL) return false;          /* liste vide */
+    if (tete == NULL) return false;         
 
-    int max = tete->valeur;                  /* le premier element */
+    int max = tete->valeur;                  
 
     for (const Maillon *m = tete->suivant; m != NULL; m = m->suivant)
         if (m->valeur > max) max = m->valeur;
