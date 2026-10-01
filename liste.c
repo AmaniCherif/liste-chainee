@@ -81,3 +81,23 @@ bool liste_maximum(const Maillon *tete, int *resultat)
 
     return true;
 }
+
+static Maillon *dernier(Maillon *tete)
+{
+    Maillon *m = tete;
+    while (m != NULL && m->suivant != NULL) m = m->suivant;
+    return m;
+}
+
+Maillon *liste_inserer_en_queue(Maillon *tete, int valeur)
+{
+    Maillon *nouveau = suivi_malloc(sizeof(Maillon));
+    if (nouveau == NULL) { perror("malloc"); exit(EXIT_FAILURE); }
+    nouveau->valeur  = valeur;
+    nouveau->suivant = NULL;
+
+    if (tete == NULL) return nouveau;
+
+    dernier(tete)->suivant = nouveau;
+    return tete;
+}
