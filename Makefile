@@ -15,4 +15,7 @@ demo$(EXE): $(OBJ)
 clean:
 	rm -f $(OBJ) demo demo.exe
 
-.PHONY: clean
+test: demo$(EXE)
+	valgrind --leak-check=full --error-exitcode=1 ./demo
+
+.PHONY: clean test
