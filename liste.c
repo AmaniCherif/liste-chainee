@@ -6,11 +6,13 @@
 
 static int blocs = 0;
 
-static void *suivi_malloc(size_t taille)
+static void *suivi_malloc(size_t taille, const char *etiquette)
 {
     void *p = malloc(taille);
 
     if (p != NULL) blocs++;
+
+    fprintf(stderr, "[alloc] %zu octets (%s) -> %p\n", taille, etiquette, p);
 
     return p;
 }
@@ -30,7 +32,7 @@ int liste_blocs_en_circulation(void)
 
 Maillon *liste_inserer(Maillon *tete, int valeur)
 {
-    Maillon *m = suivi_malloc(sizeof(Maillon));
+    Maillon *m = suivi_malloc(sizeof(Maillon), "liste_inserer");
     if (m == NULL) { perror("malloc"); exit(EXIT_FAILURE); }
     m->valeur  = valeur;
     m->suivant = tete;
@@ -91,7 +93,7 @@ static Maillon *dernier(Maillon *tete)
 
 Maillon *liste_inserer_en_queue(Maillon *tete, int valeur)
 {
-    Maillon *nouveau = suivi_malloc(sizeof(Maillon));
+    Maillon *nouveau = suivi_malloc(sizeof(Maillon), "liste_inserer_en_queue");
     if (nouveau == NULL) { perror("malloc"); exit(EXIT_FAILURE); }
     nouveau->valeur  = valeur;
     nouveau->suivant = NULL;
